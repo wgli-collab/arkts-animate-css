@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -6,7 +6,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function lightSpeedInRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -45,7 +45,7 @@ export function lightSpeedInRight(
 // ================================================================
 export function lightSpeedInLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -84,7 +84,7 @@ export function lightSpeedInLeft(
 // ================================================================
 export function lightSpeedOutRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -110,7 +110,7 @@ export function lightSpeedOutRight(
 // ================================================================
 export function lightSpeedOutLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

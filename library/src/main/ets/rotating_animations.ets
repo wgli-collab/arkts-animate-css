@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -6,7 +6,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function rotateIn(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -29,7 +29,7 @@ export function rotateIn(
 // ================================================================
 export function rotateInDownLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -52,7 +52,7 @@ export function rotateInDownLeft(
 // ================================================================
 export function rotateInDownRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -79,7 +79,7 @@ export function rotateInDownRight(
 // ================================================================
 export function rotateInUpLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -102,7 +102,7 @@ export function rotateInUpLeft(
 // ================================================================
 export function rotateInUpRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -125,7 +125,7 @@ export function rotateInUpRight(
 // ================================================================
 export function rotateOut(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -148,7 +148,7 @@ export function rotateOut(
 // ================================================================
 export function rotateOutDownLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -171,7 +171,7 @@ export function rotateOutDownLeft(
 // ================================================================
 export function rotateOutDownRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -194,7 +194,7 @@ export function rotateOutDownRight(
 // ================================================================
 export function rotateOutUpLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -217,7 +217,7 @@ export function rotateOutUpLeft(
 // ================================================================
 export function rotateOutUpRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

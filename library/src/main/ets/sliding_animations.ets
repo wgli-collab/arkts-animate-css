@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // NOTE: CSS slideIn* sets "visibility: visible" at from, and slideOut* sets
@@ -10,7 +10,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function slideInDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -31,7 +31,7 @@ export function slideInDown(
 // ================================================================
 export function slideInLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -52,7 +52,7 @@ export function slideInLeft(
 // ================================================================
 export function slideInRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -73,7 +73,7 @@ export function slideInRight(
 // ================================================================
 export function slideInUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -94,7 +94,7 @@ export function slideInUp(
 // ================================================================
 export function slideOutDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -115,7 +115,7 @@ export function slideOutDown(
 // ================================================================
 export function slideOutLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -136,7 +136,7 @@ export function slideOutLeft(
 // ================================================================
 export function slideOutRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -157,7 +157,7 @@ export function slideOutRight(
 // ================================================================
 export function slideOutUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

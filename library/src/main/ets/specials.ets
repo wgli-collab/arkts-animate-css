@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -8,7 +8,7 @@ import { calcDuration, makeUpdater } from './internal';
 // To match web behavior, pass duration * 2.
 export function hinge(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -48,7 +48,7 @@ export function hinge(
 // ================================================================
 export function jackInTheBox(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -59,15 +59,18 @@ export function jackInTheBox(
   t0.opacity = 0;
 
   // CSS scale interpolates 0.1→1 from 0% to 100%. At 50% ≈ 0.55, at 70% ≈ 0.73.
+  // CSS opacity interpolates 0→1 from 0% to 100%. At 50% ≈ 0.5, at 70% ≈ 0.7.
   const t50: AnimTransform = new AnimTransform();
   t50.scaleX = 0.55;
   t50.scaleY = 0.55;
   t50.rotateZ = -10;
+  t50.opacity = 0.5;
 
   const t70: AnimTransform = new AnimTransform();
   t70.scaleX = 0.73;
   t70.scaleY = 0.73;
   t70.rotateZ = 3;
+  t70.opacity = 0.7;
 
   const t100: AnimTransform = new AnimTransform();
   t100.scaleX = 1;
@@ -88,7 +91,7 @@ export function jackInTheBox(
 // ================================================================
 export function rollIn(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -115,7 +118,7 @@ export function rollIn(
 // ================================================================
 export function rollOut(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -6,7 +6,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function backInDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -40,7 +40,7 @@ export function backInDown(
 // ================================================================
 export function backInLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -74,7 +74,7 @@ export function backInLeft(
 // ================================================================
 export function backInRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -108,7 +108,7 @@ export function backInRight(
 // ================================================================
 export function backInUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -142,7 +142,7 @@ export function backInUp(
 // ================================================================
 export function backOutDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -176,7 +176,7 @@ export function backOutDown(
 // ================================================================
 export function backOutLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -210,7 +210,7 @@ export function backOutLeft(
 // ================================================================
 export function backOutRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -244,7 +244,7 @@ export function backOutRight(
 // ================================================================
 export function backOutUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

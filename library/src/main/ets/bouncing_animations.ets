@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -8,7 +8,7 @@ import { calcDuration, makeUpdater } from './internal';
 // To match web behavior, pass duration * 0.75.
 export function bounceIn(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -57,7 +57,7 @@ export function bounceIn(
 // ================================================================
 export function bounceInDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -97,7 +97,7 @@ export function bounceInDown(
 // ================================================================
 export function bounceInLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -137,7 +137,7 @@ export function bounceInLeft(
 // ================================================================
 export function bounceInRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -177,7 +177,7 @@ export function bounceInRight(
 // ================================================================
 export function bounceInUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -219,7 +219,7 @@ export function bounceInUp(
 // To match web behavior, pass duration * 0.75.
 export function bounceOut(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -243,8 +243,7 @@ export function bounceOut(
   t100.opacity = 0;
 
   return [
-    // CSS bounceOut has no from/0% keyframe — anchor initial state.
-    { duration: 0, curve: Curve.Linear, event: makeUpdater(updater, new AnimTransform()) },
+    // CSS bounceOut has no from/0% keyframe — animation starts from element's current state.
     { duration: calcDuration(dur, 0, 20), curve: Curve.Linear, event: makeUpdater(updater, t20) },
     { duration: calcDuration(dur, 20, 50), curve: Curve.Linear, event: makeUpdater(updater, t50) },
     { duration: calcDuration(dur, 50, 55), curve: Curve.Linear, event: makeUpdater(updater, t55) },
@@ -257,7 +256,7 @@ export function bounceOut(
 // ================================================================
 export function bounceOutDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -293,7 +292,7 @@ export function bounceOutDown(
 // ================================================================
 export function bounceOutLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -318,7 +317,7 @@ export function bounceOutLeft(
 // ================================================================
 export function bounceOutRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -343,7 +342,7 @@ export function bounceOutRight(
 // ================================================================
 export function bounceOutUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

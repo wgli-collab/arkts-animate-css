@@ -38,22 +38,26 @@ export class AnimTransform {
   skewY: number = 0;
 }
 /**
- * Animation configuration options.
+ * Minimal options consumed by individual animation keyframe generators.
+ * Only duration is needed — delay, iterations, curve, and onFinish are
+ * consumed by the animation controller (ArkUI keyframeAnimateTo / animateTo),
+ * not by the 97 animation functions themselves.
+ */
+export interface AnimKeyframeOptions {
+  duration: number;
+}
+
+/**
+ * Full animation playback options including controller-level parameters.
+ * Extends AnimKeyframeOptions with fields consumed by the animation controller.
  *
  * Note: delay, iterations, curve, and onFinish are declared for API completeness
  * but are NOT consumed by the individual animation functions. These are intended
  * for the higher-level animation controller (ArkUI keyframeAnimateTo / animateTo)
  * that consumes the returned KeyframeState[]. The animation functions only use
  * duration to compute per-segment durations.
- *
- * duration: total animation duration in milliseconds (required).
- * delay: start delay in milliseconds (default 0).
- * iterations: repeat count (default 1, use -1 for infinite).
- * curve: global timing curve (overridden by per-keyframe curves).
- * onFinish: callback invoked when animation completes.
  */
-export interface AnimOptions {
-  duration: number;
+export interface AnimOptions extends AnimKeyframeOptions {
   delay?: number;
   iterations?: number;
   curve?: Curve;

@@ -1,7 +1,7 @@
 // ArkTS animate.css — Barrel Export
 // Re-exports all 97 animation functions and shared types.
 
-export { AnimTransform, AnimOptions } from './types';
+export { AnimTransform, AnimKeyframeOptions, AnimOptions } from './types';
 
 export {
   bounce,

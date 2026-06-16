@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -6,7 +6,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function fadeOut(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -27,7 +27,7 @@ export function fadeOut(
 // ================================================================
 export function fadeOutDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -50,7 +50,7 @@ export function fadeOutDown(
 // ================================================================
 export function fadeOutDownBig(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -73,7 +73,7 @@ export function fadeOutDownBig(
 // ================================================================
 export function fadeOutLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -96,7 +96,7 @@ export function fadeOutLeft(
 // ================================================================
 export function fadeOutLeftBig(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -119,7 +119,7 @@ export function fadeOutLeftBig(
 // ================================================================
 export function fadeOutRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -142,7 +142,7 @@ export function fadeOutRight(
 // ================================================================
 export function fadeOutRightBig(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -165,7 +165,7 @@ export function fadeOutRightBig(
 // ================================================================
 export function fadeOutUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -188,7 +188,7 @@ export function fadeOutUp(
 // ================================================================
 export function fadeOutUpBig(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -211,7 +211,7 @@ export function fadeOutUpBig(
 // ================================================================
 export function fadeOutTopLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -236,7 +236,7 @@ export function fadeOutTopLeft(
 // ================================================================
 export function fadeOutTopRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -261,7 +261,7 @@ export function fadeOutTopRight(
 // ================================================================
 export function fadeOutBottomRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -286,7 +286,7 @@ export function fadeOutBottomRight(
 // ================================================================
 export function fadeOutBottomLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

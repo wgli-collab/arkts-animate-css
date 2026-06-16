@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
@@ -6,7 +6,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function zoomIn(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -38,7 +38,7 @@ export function zoomIn(
 // ================================================================
 export function zoomInDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -72,7 +72,7 @@ export function zoomInDown(
 // ================================================================
 export function zoomInLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -106,7 +106,7 @@ export function zoomInLeft(
 // ================================================================
 export function zoomInRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -140,7 +140,7 @@ export function zoomInRight(
 // ================================================================
 export function zoomInUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -174,7 +174,7 @@ export function zoomInUp(
 // ================================================================
 export function zoomOut(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -205,7 +205,7 @@ export function zoomOut(
 // ================================================================
 export function zoomOutDown(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -222,8 +222,7 @@ export function zoomOutDown(
   t100.opacity = 0;
 
   return [
-    // CSS zoomOutDown has no from/0% keyframe — anchor initial state.
-    { duration: 0, curve: Curve.Linear, event: makeUpdater(updater, new AnimTransform()) },
+    // CSS zoomOutDown has no from/0% keyframe — animation starts from element's current state.
     { duration: calcDuration(dur, 0, 40), curve: Curve.Ease, event: makeUpdater(updater, t40) },
     { duration: calcDuration(dur, 40, 100), curve: Curve.Ease, event: makeUpdater(updater, t100) }
   ];
@@ -234,7 +233,7 @@ export function zoomOutDown(
 // ================================================================
 export function zoomOutLeft(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -261,7 +260,7 @@ export function zoomOutLeft(
 // ================================================================
 export function zoomOutRight(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -288,7 +287,7 @@ export function zoomOutRight(
 // ================================================================
 export function zoomOutUp(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

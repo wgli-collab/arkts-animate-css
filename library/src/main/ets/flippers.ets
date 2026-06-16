@@ -1,4 +1,4 @@
-import { AnimTransform, AnimOptions } from './types';
+import { AnimTransform, AnimKeyframeOptions } from './types';
 import { calcDuration, makeUpdater } from './internal';
 
 // NOTE: Original CSS uses 3D transforms (perspective, rotateX, rotateY, translateZ).
@@ -10,7 +10,7 @@ import { calcDuration, makeUpdater } from './internal';
 // ================================================================
 export function flip(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -55,7 +55,7 @@ export function flip(
 // ================================================================
 export function flipInX(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -64,9 +64,11 @@ export function flipInX(
   t0.scaleX = 0.2;
   t0.opacity = 0;
 
+  // CSS opacity interpolates 0→1 from 0% to 60%. At 40% ≈ 0.67.
   const t40: AnimTransform = new AnimTransform();
   t40.rotateZ = -20;
   t40.scaleX = 0.8;
+  t40.opacity = 0.67;
 
   const t60: AnimTransform = new AnimTransform();
   t60.rotateZ = 10;
@@ -97,7 +99,7 @@ export function flipInX(
 // ================================================================
 export function flipInY(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -106,9 +108,11 @@ export function flipInY(
   t0.scaleY = 0.2;
   t0.opacity = 0;
 
+  // CSS opacity interpolates 0→1 from 0% to 60%. At 40% ≈ 0.67.
   const t40: AnimTransform = new AnimTransform();
   t40.rotateZ = -20;
   t40.scaleY = 0.8;
+  t40.opacity = 0.67;
 
   const t60: AnimTransform = new AnimTransform();
   t60.rotateZ = 10;
@@ -137,7 +141,7 @@ export function flipInY(
 // ================================================================
 export function flipOutX(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 
@@ -167,7 +171,7 @@ export function flipOutX(
 // ================================================================
 export function flipOutY(
   updater: (transform: AnimTransform) => void,
-  options: AnimOptions
+  options: AnimKeyframeOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
 

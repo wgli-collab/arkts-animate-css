@@ -1,5 +1,6 @@
 import {
   AnimTransform,
+  AnimKeyframeOptions,
   AnimOptions,
   bounce,
   flash,
@@ -130,7 +131,7 @@ function validateFrames(frames: KeyframeState[], fnName: string): string {
  * Helper: run a standard animation test.
  * Passes a minimal no-op updater (lambda as direct callback argument — R10 compliant).
  */
-function runTest(fnName: string, fn: (updater: (t: AnimTransform) => void, opts: AnimOptions) => KeyframeState[]): TestResult {
+function runTest(fnName: string, fn: (updater: (t: AnimTransform) => void, opts: AnimKeyframeOptions) => KeyframeState[]): TestResult {
   const result: TestResult = { name: fnName, passed: false, error: '' };
   const options: AnimOptions = { duration: 1000 };
   const frames: KeyframeState[] = fn((t: AnimTransform): void => {}, options);
@@ -148,7 +149,7 @@ function runTest(fnName: string, fn: (updater: (t: AnimTransform) => void, opts:
  */
 function runTestWithOptions(
   fnName: string,
-  fn: (updater: (t: AnimTransform) => void, opts: AnimOptions) => KeyframeState[],
+  fn: (updater: (t: AnimTransform) => void, opts: AnimKeyframeOptions) => KeyframeState[],
   options: AnimOptions
 ): TestResult {
   const result: TestResult = { name: fnName, passed: false, error: '' };

@@ -1,6 +1,5 @@
-const ohosPluginPath = '/Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/index.js';
-const { harTasks } = require(ohosPluginPath);
-console.log('Library Hvigorfile: harTasks =', typeof harTasks);
+const DEVECO_HOME = process.env.DEVECO_STUDIO_HOME || '/Applications/DevEco-Studio.app';
+const { harTasks } = require(`${DEVECO_HOME}/Contents/tools/hvigor/hvigor-ohos-plugin`);
 module.exports = {
     default: {
         system: harTasks,
