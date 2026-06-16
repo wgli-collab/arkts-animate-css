@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "library",
+    "type": "har",
+    "description": "ArkTS animate.css library module — 97 keyframe-based animations",
+    "deviceTypes": [
+      "phone",
+      "tablet",
+      "2in1"
+    ]
+  }
+}

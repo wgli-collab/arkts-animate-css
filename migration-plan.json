@@ -1,0 +1,327 @@
+{
+  "library_name": "arkts-animate-css",
+  "description": "HarmonyOS ArkTS port of animate.css v4.1.1 — a cross-platform animation library providing 97 keyframe-based animations via HarmonyOS keyframeAnimateTo API. Maps CSS @keyframes to ArkTS KeyframeState arrays with typed animation options.",
+  "source_version": "4.1.1",
+  "total_functions": 97,
+  "total_files": 13,
+  "files": [
+    {
+      "path": "library/src/main/ets/types.ets",
+      "category": "Core",
+      "description": "Shared types: AnimTransform (translate, scale, rotate, opacity, skew), AnimOptions (duration, delay, iterations, curve, onFinish). Declares the KeyframeState factory pattern used by all animation functions.",
+      "imports": [],
+      "exports": [
+        {
+          "name": "AnimTransform",
+          "kind": "class",
+          "signature": "class AnimTransform { translateX: number; translateY: number; scaleX: number; scaleY: number; rotateZ: number; opacity: number; skewX: number; skewY: number }",
+          "description": "Unified transform state object for keyframe callbacks. All values have defaults (translate=0, scale=1, rotate=0, opacity=1, skew=0).",
+          "arkts_notes": "Class with explicit property types — no untyped object literals. Used as the parameter type for keyframe update callbacks."
+        },
+        {
+          "name": "AnimOptions",
+          "kind": "interface",
+          "signature": "interface AnimOptions { duration: number; delay?: number; iterations?: number; curve?: Curve; onFinish?: () => void }",
+          "description": "Animation configuration: duration (ms), optional delay, iteration count, timing curve, and completion callback.",
+          "arkts_notes": "Curve type from @kit.ArkUI. duration is required (no default — callers must be explicit)."
+        }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/attention_seekers.ets",
+      "category": "Attention Seeker",
+      "description": "12 attention-seeking animations: bounce, flash, pulse, rubberBand, shakeX, shakeY, headShake, swing, tada, wobble, jello, heartBeat.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "bounce", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bouncing up-and-down with scaleY squash/stretch. Cubic-bezier timing per keyframe. transform-origin: center bottom.", "arkts_notes": "Multi-stop keyframe. translateY + scaleY transforms. Default duration 1000ms." },
+        { "name": "flash", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Toggle opacity 1→0→1→0→1 at 25%/75%.", "arkts_notes": "Simple opacity keyframes. Default duration 1000ms." },
+        { "name": "pulse", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Scale up to 1.05 then back to 1.0. ease-in-out timing.", "arkts_notes": "Scale only. Default duration 1000ms." },
+        { "name": "rubberBand", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rubber band stretch: scaleX/scaleY alternate overshoot/undershoot. 7 keyframe stops.", "arkts_notes": "scaleX/scaleY independently at each stop. Default duration 1000ms." },
+        { "name": "shakeX", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Horizontal shake: translateX ±10px at 10% intervals.", "arkts_notes": "translateX only. Default duration 1000ms." },
+        { "name": "shakeY", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Vertical shake: translateY ±10px at 10% intervals.", "arkts_notes": "translateY only. Default duration 1000ms." },
+        { "name": "headShake", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Head shake: translateX + rotateY at fractional percentages (6.5%, 18.5%, 31.5%, 43.5%, 50%). ease-in-out.", "arkts_notes": "translateX + rotateY combo. Irregular keyframe stops. Default duration 1000ms." },
+        { "name": "swing", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Pendulum swing: rotateZ 15°→-10°→5°→-5°→0°. transform-origin: top center.", "arkts_notes": "rotateZ only. Default duration 1000ms." },
+        { "name": "tada", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Tada: alternating scale(0.9)/scale(1.1) with ±3° rotateZ at each stop.", "arkts_notes": "scale + rotateZ combo. 10 keyframe stops. Default duration 1000ms." },
+        { "name": "wobble", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Wobble: translateX percentages with decreasing rotateZ amplitude (5°→3°→2°→1°).", "arkts_notes": "translateX percentages + rotateZ. 7 stops. Default duration 1000ms." },
+        { "name": "jello", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Jello: skewX/skewY with decreasing amplitude (-12.5°→6.25°→-3.125°→1.5625°→-0.78125°→0.390625°→-0.1953125°). transform-origin: center.", "arkts_notes": "skewX + skewY. Requires ArkUI skew support. Default duration 1000ms." },
+        { "name": "heartBeat", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Heart beat: scale(1)→1.3→1→1.3→1 at 0%/14%/28%/42%/70%. ease-in-out. Duration ×1.3.", "arkts_notes": "Scale only. Default duration 1300ms (1.3x)." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/back_animations.ets",
+      "category": "Back Entrance/Exit",
+      "description": "8 back-perspective animations: backInDown, backInLeft, backInRight, backInUp (entrances) and backOutDown, backOutLeft, backOutRight, backOutUp (exits). Entrances fly in scaled to 0.7 with opacity 0.7 then snap to full; exits reverse.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "backInDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Enter from above (-1200px), scale(0.7) + opacity 0.7 until 80%, then snap to full at 100%.", "arkts_notes": "3 keyframe stops (0%, 80%, 100%). translateY + scale + opacity." },
+        { "name": "backInLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Enter from left (-2000px), scale(0.7) + opacity 0.7 until 80%, snap to full at 100%.", "arkts_notes": "translateX + scale + opacity." },
+        { "name": "backInRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Enter from right (2000px), scale(0.7) + opacity 0.7 until 80%, snap to full at 100%.", "arkts_notes": "translateX + scale + opacity." },
+        { "name": "backInUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Enter from below (1200px), scale(0.7) + opacity 0.7 until 80%, snap to full at 100%.", "arkts_notes": "translateY + scale + opacity." },
+        { "name": "backOutDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Exit downward: snap to scale(0.7)/opacity 0.7 at 20%, fly to translateY(700px) at 100%.", "arkts_notes": "translateY + scale + opacity. Reverse pattern of backIn." },
+        { "name": "backOutLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Exit left: snap to scale(0.7)/opacity 0.7 at 20%, fly to translateX(-2000px) at 100%.", "arkts_notes": "translateX + scale + opacity." },
+        { "name": "backOutRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Exit right: snap to scale(0.7)/opacity 0.7 at 20%, fly to translateX(2000px) at 100%.", "arkts_notes": "translateX + scale + opacity." },
+        { "name": "backOutUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Exit upward: snap to scale(0.7)/opacity 0.7 at 20%, fly to translateY(-700px) at 100%.", "arkts_notes": "translateY + scale + opacity." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/bouncing_animations.ets",
+      "category": "Bouncing Entrance/Exit",
+      "description": "10 bouncing animations with overshoot/undershoot rubber-band physics: bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp (entrances) and bounceOut, bounceOutDown, bounceOutLeft, bounceOutRight, bounceOutUp (exits). All use cubic-bezier(0.215, 0.61, 0.355, 1).",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "bounceIn", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce in: scale 0.3→1.1→0.9→1.03→0.97→1.0 with opacity 0→1. Duration ×0.75.", "arkts_notes": "scale only + opacity. 7 stops. Default duration 750ms." },
+        { "name": "bounceInDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce in from above: translateY -3000px→25px→-10px→5px→0 with scaleY 3→0.9→0.95→0.985→1.", "arkts_notes": "translateY + scaleY + opacity. 5 stops. Default duration 1000ms." },
+        { "name": "bounceInLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce in from left: translateX -3000px→25px→-10px→5px→0 with scaleX 3→1→0.98→0.995→1.", "arkts_notes": "translateX + scaleX + opacity. 5 stops." },
+        { "name": "bounceInRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce in from right: translateX 3000px→-25px→10px→-5px→0 with scaleX 3→1→0.98→0.995→1.", "arkts_notes": "translateX + scaleX + opacity. 5 stops." },
+        { "name": "bounceInUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce in from below: translateY 3000px→-20px→10px→-5px→0 with scaleY 5→0.9→0.95→0.985→1.", "arkts_notes": "translateY + scaleY + opacity. 5 stops." },
+        { "name": "bounceOut", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce out: scale 0.9→1.1→0.3 with opacity 1→0. Duration ×0.75. 4 stops.", "arkts_notes": "scale + opacity. Reverse of bounceIn. Default duration 750ms." },
+        { "name": "bounceOutDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce out downward: small overshoot upward then fly down 2000px with scaleY 3.", "arkts_notes": "translateY + scaleY + opacity. 4 stops." },
+        { "name": "bounceOutLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce out left: translateX 20px→-2000px with scaleX 0.9→2, opacity 1→0.", "arkts_notes": "translateX + scaleX + opacity. 3 stops." },
+        { "name": "bounceOutRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce out right: translateX -20px→2000px with scaleX 0.9→2, opacity 1→0.", "arkts_notes": "translateX + scaleX + opacity. 3 stops." },
+        { "name": "bounceOutUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Bounce out upward: small overshoot downward then fly up -2000px with scaleY 3.", "arkts_notes": "translateY + scaleY + opacity. 4 stops." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/fading_entrances.ets",
+      "category": "Fading Entrance",
+      "description": "13 fade-in animations: fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, fadeInTopLeft, fadeInTopRight, fadeInBottomLeft, fadeInBottomRight. All are 2-keyframe (from→to) opacity+translate.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "fadeIn", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Simple opacity 0→1. No translate.", "arkts_notes": "Opacity only. Default duration 1000ms." },
+        { "name": "fadeInDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from above: translateY(-100%)→0 + opacity 0→1.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeInDownBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from far above: translateY(-2000px)→0 + opacity 0→1.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeInLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from left: translateX(-100%)→0 + opacity 0→1.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeInLeftBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from far left: translateX(-2000px)→0 + opacity 0→1.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeInRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from right: translateX(100%)→0 + opacity 0→1.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeInRightBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from far right: translateX(2000px)→0 + opacity 0→1.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeInUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from below: translateY(100%)→0 + opacity 0→1.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeInUpBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from far below: translateY(2000px)→0 + opacity 0→1.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeInTopLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from top-left: translate(-100%, -100%)→0 + opacity 0→1.", "arkts_notes": "translateX + translateY + opacity." },
+        { "name": "fadeInTopRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from top-right: translate(100%, -100%)→0 + opacity 0→1.", "arkts_notes": "translateX + translateY + opacity." },
+        { "name": "fadeInBottomLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from bottom-left: translate(-100%, 100%)→0 + opacity 0→1.", "arkts_notes": "translateX + translateY + opacity." },
+        { "name": "fadeInBottomRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade in from bottom-right: translate(100%, 100%)→0 + opacity 0→1.", "arkts_notes": "translateX + translateY + opacity." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/fading_exits.ets",
+      "category": "Fading Exit",
+      "description": "13 fade-out animations: fadeOut, fadeOutDown, fadeOutDownBig, fadeOutLeft, fadeOutLeftBig, fadeOutRight, fadeOutRightBig, fadeOutUp, fadeOutUpBig, fadeOutTopLeft, fadeOutTopRight, fadeOutBottomRight, fadeOutBottomLeft. All 2-keyframe opacity+translate reverse of entrances.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "fadeOut", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Simple opacity 1→0. No translate.", "arkts_notes": "Opacity only. Default duration 1000ms." },
+        { "name": "fadeOutDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out downward: opacity 1→0 + translateY 0→100%.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeOutDownBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out far downward: opacity 1→0 + translateY 0→2000px.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeOutLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out left: opacity 1→0 + translateX 0→-100%.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeOutLeftBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out far left: opacity 1→0 + translateX 0→-2000px.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeOutRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out right: opacity 1→0 + translateX 0→100%.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeOutRightBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out far right: opacity 1→0 + translateX 0→2000px.", "arkts_notes": "translateX + opacity." },
+        { "name": "fadeOutUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out upward: opacity 1→0 + translateY 0→-100%.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeOutUpBig", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out far upward: opacity 1→0 + translateY 0→-2000px.", "arkts_notes": "translateY + opacity." },
+        { "name": "fadeOutTopLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out to top-left: opacity 1→0 + translate 0→(-100%, -100%).", "arkts_notes": "translateX + translateY + opacity." },
+        { "name": "fadeOutTopRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out to top-right: opacity 1→0 + translate 0→(100%, -100%).", "arkts_notes": "translateX + translateY + opacity." },
+        { "name": "fadeOutBottomRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out to bottom-right: opacity 1→0 + translate 0→(100%, 100%).", "arkts_notes": "translateX + translateY + opacity." },
+        { "name": "fadeOutBottomLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Fade out to bottom-left: opacity 1→0 + translate 0→(-100%, 100%).", "arkts_notes": "translateX + translateY + opacity." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/flippers.ets",
+      "category": "Flipper",
+      "description": "5 3D flip animations using perspective+rotate3d: flip, flipInX, flipInY, flipOutX, flipOutY. Uses backface-visibility.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "flip", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Full Y-axis flip: rotate3d(0,1,0,-360°→0°) with perspective(400px) and scale adjustments. 5 stops with ease-out/ease-in curves.", "arkts_notes": "rotateY + scale. perspective() may require rotate with anchor. ⚠️ 3D transforms have limited ArkUI support." },
+        { "name": "flipInX", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Flip in on X-axis: rotate3d(1,0,0,90°→-20°→10°→-5°→0) with opacity 0→1.", "arkts_notes": "rotateX + opacity. 5 stops. ⚠️ 3D rotateX may degrade to 2D." },
+        { "name": "flipInY", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Flip in on Y-axis: rotate3d(0,1,0,90°→-20°→10°→-5°→0) with opacity 0→1.", "arkts_notes": "rotateY + opacity. 5 stops. ⚠️ 3D rotateY may degrade to 2D." },
+        { "name": "flipOutX", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Flip out on X-axis: rotateX 0→-20°→90° with opacity 1→0. Duration ×0.75.", "arkts_notes": "rotateX + opacity. Default duration 750ms." },
+        { "name": "flipOutY", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Flip out on Y-axis: rotateY 0→-15°→90° with opacity 1→0. Duration ×0.75.", "arkts_notes": "rotateY + opacity. Default duration 750ms." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/lightspeed.ets",
+      "category": "Lightspeed",
+      "description": "4 lightspeed animations with skew + translate: lightSpeedInRight, lightSpeedInLeft, lightSpeedOutRight, lightSpeedOutLeft.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "lightSpeedInRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Whoosh in from right: translateX(100%)→0 + skewX(-30°→20°→-5°→0). ease-out.", "arkts_notes": "translateX + skewX + opacity. 4 stops. ⚠️ Verify ArkUI skew support." },
+        { "name": "lightSpeedInLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Whoosh in from left: translateX(-100%)→0 + skewX(30°→-20°→5°→0). ease-out.", "arkts_notes": "translateX + skewX + opacity. 4 stops." },
+        { "name": "lightSpeedOutRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Whoosh out to right: opacity 1→0 + translateX 0→100% + skewX 0→30°. ease-in.", "arkts_notes": "translateX + skewX + opacity. 2 stops." },
+        { "name": "lightSpeedOutLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Whoosh out to left: opacity 1→0 + translateX 0→-100% + skewX 0→-30°. ease-in.", "arkts_notes": "translateX + skewX + opacity. 2 stops." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/rotating_animations.ets",
+      "category": "Rotating Entrance/Exit",
+      "description": "10 rotation animations: rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight (entrances) and rotateOut, rotateOutDownLeft, rotateOutDownRight, rotateOutUpLeft, rotateOutUpRight (exits). Entrances rotate from angle to 0; exits rotate from 0 to angle. Varying transform-origin points.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "rotateIn", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate in: rotateZ -200°→0 + opacity 0→1. transform-origin: center.", "arkts_notes": "rotateZ + opacity. 2 stops. Default duration 1000ms." },
+        { "name": "rotateInDownLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate in from bottom-left: rotateZ -45°→0 + opacity 0→1. transform-origin: left bottom.", "arkts_notes": "rotateZ + opacity. 2 stops. ⚠️ transform-origin may not have exact ArkUI equivalent." },
+        { "name": "rotateInDownRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate in from bottom-right: rotateZ 45°→0 + opacity 0→1. transform-origin: right bottom.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateInUpLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate in from top-left: rotateZ 45°→0 + opacity 0→1. transform-origin: left bottom.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateInUpRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate in from top-right: rotateZ -90°→0 + opacity 0→1. transform-origin: right bottom.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateOut", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate out: rotateZ 0→200° + opacity 1→0. transform-origin: center.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateOutDownLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate out to bottom-left: rotateZ 0→45° + opacity 1→0.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateOutDownRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate out to bottom-right: rotateZ 0→-45° + opacity 1→0.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateOutUpLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate out to top-left: rotateZ 0→-45° + opacity 1→0.", "arkts_notes": "rotateZ + opacity." },
+        { "name": "rotateOutUpRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Rotate out to top-right: rotateZ 0→90° + opacity 1→0.", "arkts_notes": "rotateZ + opacity." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/sliding_animations.ets",
+      "category": "Sliding Entrance/Exit",
+      "description": "8 sliding animations: slideInDown, slideInLeft, slideInRight, slideInUp (entrances) and slideOutDown, slideOutLeft, slideOutRight, slideOutUp (exits). Use visibility property (not opacity).",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "slideInDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide in from above: translateY(-100%)→0. visibility: visible.", "arkts_notes": "translateY only. 2 stops. Default duration 1000ms." },
+        { "name": "slideInLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide in from left: translateX(-100%)→0. visibility: visible.", "arkts_notes": "translateX only." },
+        { "name": "slideInRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide in from right: translateX(100%)→0. visibility: visible.", "arkts_notes": "translateX only." },
+        { "name": "slideInUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide in from below: translateY(100%)→0. visibility: visible.", "arkts_notes": "translateY only." },
+        { "name": "slideOutDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide out downward: translateY 0→100%. visibility: hidden at end.", "arkts_notes": "translateY only. visibility hidden on final keyframe." },
+        { "name": "slideOutLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide out left: translateX 0→-100%. visibility: hidden at end.", "arkts_notes": "translateX only." },
+        { "name": "slideOutRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide out right: translateX 0→100%. visibility: hidden at end.", "arkts_notes": "translateX only." },
+        { "name": "slideOutUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Slide out upward: translateY 0→-100%. visibility: hidden at end.", "arkts_notes": "translateY only." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/specials.ets",
+      "category": "Special",
+      "description": "4 special animations that don't fit other categories: hinge, jackInTheBox, rollIn, rollOut.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "hinge", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Hinge drop: rotateZ 0→80°→60°→80°→60° then translateY 700px + opacity→0. transform-origin: top left. Duration ×2.", "arkts_notes": "rotateZ + translateY + opacity. 5 stops. Default duration 2000ms." },
+        { "name": "jackInTheBox", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Jack-in-the-box popup: scale 0.1→1 + rotateZ 30°→-10°→3°→0 + opacity 0→1. transform-origin: center bottom.", "arkts_notes": "scale + rotateZ + opacity. 4 stops. Default duration 1000ms." },
+        { "name": "rollIn", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Roll in from left: translateX(-100%)→0 + rotateZ -120°→0 + opacity 0→1.", "arkts_notes": "translateX + rotateZ + opacity. 2 stops." },
+        { "name": "rollOut", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Roll out to right: translateX 0→100% + rotateZ 0→120° + opacity 1→0.", "arkts_notes": "translateX + rotateZ + opacity. 2 stops." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/zooming_animations.ets",
+      "category": "Zooming Entrance/Exit",
+      "description": "10 zoom animations: zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp (entrances) and zoomOut, zoomOutDown, zoomOutLeft, zoomOutRight, zoomOutUp (exits). Scale-based with optional directional translate and custom cubic-bezier curves.",
+      "imports": ["./types"],
+      "exports": [
+        { "name": "zoomIn", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom in: scale 0.3→1 + opacity 0→1 (opacity 1 at 50%).", "arkts_notes": "scale + opacity. 3 stops. Default duration 1000ms." },
+        { "name": "zoomInDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom in from above: from scale(0.1) translateY(-1000px) with cubic-bezier(0.55,0.055,0.675,0.19) → at 60% scale(0.475) translateY(60px) with cubic-bezier(0.175,0.885,0.32,1).", "arkts_notes": "scale + translateY + opacity. 3 stops with custom curves. ⚠️ Custom cubic-bezier may map to closest Curve enum value." },
+        { "name": "zoomInLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom in from left: scale(0.1) translateX(-1000px) → scale(0.475) translateX(10px) at 60%. Custom cubic-bezier curves.", "arkts_notes": "scale + translateX + opacity." },
+        { "name": "zoomInRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom in from right: scale(0.1) translateX(1000px) → scale(0.475) translateX(-10px) at 60%. Custom cubic-bezier curves.", "arkts_notes": "scale + translateX + opacity." },
+        { "name": "zoomInUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom in from below: scale(0.1) translateY(1000px) → scale(0.475) translateY(-60px) at 60%. Custom cubic-bezier curves.", "arkts_notes": "scale + translateY + opacity." },
+        { "name": "zoomOut", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom out: opacity 1→0 + scale 1→0.3 at 50%.", "arkts_notes": "scale + opacity. 3 stops." },
+        { "name": "zoomOutDown", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom out downward: at 40% scale(0.475) translateY(-60px) → scale(0.1) translateY(2000px) + opacity 0. transform-origin: center bottom.", "arkts_notes": "scale + translateY + opacity. 3 stops. Custom cubic-bezier." },
+        { "name": "zoomOutLeft", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom out left: at 40% scale(0.475) translateX(42px) → scale(0.1) translateX(-2000px) + opacity 0. transform-origin: left center.", "arkts_notes": "scale + translateX + opacity." },
+        { "name": "zoomOutRight", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom out right: at 40% scale(0.475) translateX(-42px) → scale(0.1) translateX(2000px) + opacity 0. transform-origin: right center.", "arkts_notes": "scale + translateX + opacity." },
+        { "name": "zoomOutUp", "kind": "function", "signature": "(options: AnimOptions) => KeyframeState[]", "description": "Zoom out upward: at 40% scale(0.475) translateY(60px) → scale(0.1) translateY(-2000px) + opacity 0. transform-origin: center bottom.", "arkts_notes": "scale + translateY + opacity." }
+      ]
+    },
+    {
+      "path": "library/src/main/ets/Index.ets",
+      "category": "Barrel",
+      "description": "Barrel export file re-exporting all 97 animation functions from all category modules.",
+      "imports": ["./types", "./attention_seekers", "./back_animations", "./bouncing_animations", "./fading_entrances", "./fading_exits", "./flippers", "./lightspeed", "./rotating_animations", "./sliding_animations", "./specials", "./zooming_animations"],
+      "exports": [
+        { "name": "(re-export all)", "kind": "barrel", "signature": "export { AnimTransform, AnimOptions } from './types'; export { bounce, flash, pulse, rubberBand, shakeX, shakeY, headShake, swing, tada, wobble, jello, heartBeat } from './attention_seekers'; ...", "description": "Single import point. Consumers: import { fadeIn, bounce, ... } from '@ohos/arkts-animate-css'", "arkts_notes": "Static export only — no dynamic re-exports. Each export is explicit." }
+      ]
+    }
+  ],
+  "dependency_order": [
+    "types.ets",
+    "attention_seekers.ets",
+    "back_animations.ets",
+    "bouncing_animations.ets",
+    "fading_entrances.ets",
+    "fading_exits.ets",
+    "flippers.ets",
+    "lightspeed.ets",
+    "rotating_animations.ets",
+    "sliding_animations.ets",
+    "specials.ets",
+    "zooming_animations.ets",
+    "Index.ets"
+  ],
+  "project_config": {
+    "hvigor-config.json5": {
+      "modelVersion": "6.1.1",
+      "dependencies": {
+        "@ohos/hvigor-ohos-plugin": "6.24.2"
+      }
+    },
+    "build-profile.json5": {
+      "app": {
+        "signingConfigs": [],
+        "compileSdkVersion": "6.1.1(24)",
+        "compatibleSdkVersion": "6.1.1(24)",
+        "products": [
+          {
+            "name": "default",
+            "signingConfig": "default"
+          }
+        ],
+        "modules": [
+          {
+            "name": "library",
+            "srcPath": "./library",
+            "targets": [
+              {
+                "name": "default",
+                "applyToProducts": ["default"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "library_build-profile.json5": {
+      "apiType": "stageMode",
+      "buildOption": {
+        "arkOptions": {
+          "byteCodeHar": false
+        }
+      },
+      "targets": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    "oh-package.json5": {
+      "modelVersion": "6.1.1",
+      "description": "ArkTS port of animate.css — HarmonyOS animation library with 97 keyframe-based animations",
+      "main": "Index.ets",
+      "author": "",
+      "license": "Apache-2.0",
+      "dependencies": {}
+    },
+    "library_oh-package.json5": {
+      "modelVersion": "6.1.1",
+      "name": "library",
+      "version": "1.0.0",
+      "description": "ArkTS animate.css library module",
+      "main": "Index.ets",
+      "author": "",
+      "license": "Apache-2.0",
+      "dependencies": {}
+    },
+    "AppScope_app.json5": {
+      "app": {
+        "bundleName": "com.example.arktsanimatecss",
+        "vendor": "example",
+        "versionCode": 1000000,
+        "versionName": "1.0.0",
+        "icon": "$media:app_icon",
+        "label": "$string:app_name"
+      }
+    }
+  },
+  "risks": [
+    "CSS @keyframes → ArkTS KeyframeState mapping: CSS keyframe percentages must be converted to proportional duration values in KeyframeState[]. Each percentage stop becomes a KeyframeState with duration = (stop% - prevStop%) * totalDuration.",
+    "3D transforms (rotateX, rotateY, rotate3d, perspective) may have limited or no support in ArkUI. Flipper category (flip, flipInX, flipInY, flipOutX, flipOutY) and headShake use rotateY/rotateX — may need 2D fallback or be excluded.",
+    "CSS cubic-bezier timing curves have no exact equivalent in ArkUI Curve enum. The enum offers: Linear, Ease, EaseIn, EaseOut, EaseInOut, FastOutSlowIn, FastOutLinearIn, LinearOutSlowIn, Spring, Friction, Sharp, Rhythm, Smooth, ExtremeDeceleration. Custom bezier points (e.g. cubic-bezier(0.215, 0.61, 0.355, 1)) must map to closest standard curve.",
+    "transform-origin (used in swing, hinge, jackInTheBox, rotating, zooming animations) maps to .transformOrigin() modifier — verify API exists and accepts same values (top left, center bottom, etc.).",
+    "visibility property (used in sliding animations) maps to .visibility(Visibility.None/Visible) modifier — available in ArkUI.",
+    "skewX/skewY transforms (used in jello, lightspeed animations) — verify ArkUI .skew() modifier support.",
+    "CSS calc() values (duration × 0.75, × 1.3, × 2) must be computed in ArkTS code at call time.",
+    "CSS prefers-reduced-motion media query has no direct ArkTS equivalent — library consumers must check accessibility settings manually.",
+    "CSS animation-fill-mode: both — in ArkTS, this is handled by the initial/final state of the component itself, not the animation library.",
+    "This is a CSS library port, not TS/JS — there is no source TypeScript code to reference; all code must be authored from scratch based on CSS keyframe definitions.",
+    "The keyframeAnimateTo API requires UIContext — the library functions return KeyframeState[] arrays, and the consumer is responsible for calling uiContext.keyframeAnimateTo(param, keyframes) within a component context. This is an architectural decision documented in the API design."
+  ]
+}
