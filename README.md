@@ -10,7 +10,6 @@
 - 🎬 **97 个动画** — 完整移植 animate.css v4.1.1 全部动画
 - 📐 **类型安全** — 纯 ArkTS strict-mode，0 个 `any`/`unknown`
 - 🔧 **零依赖** — 纯算法实现，不依赖任何第三方库
-- ✅ **Auditor 合规** — 通过全部 23 条 ArkTS strict-mode 规则检查
 - 🧪 **101 个测试** — 100% API 覆盖，运行时全部通过
 
 ## 安装
@@ -139,10 +138,8 @@ arkts-animate-css/
 
 | 指标 | 值 |
 |------|:--:|
-| ArkTS strict-mode 规则 (R1-R23) | ✅ 0 violations |
-| 编译 (hvigorw assembleHar) | ✅ BUILD SUCCESSFUL |
+| 编译 | ✅ BUILD SUCCESSFUL |
 | 运行时测试 | ✅ 101/101 (100%) |
-| API 幻觉率 | 0% |
 
 ## 与 animate.css 的区别
 
@@ -160,4 +157,3 @@ Apache-2.0 — 与原 animate.css 保持一致。
 ## 致谢
 
 - [animate.css](https://github.com/animate-css/animate.css) by Daniel Eden — 原创 CSS 动画库
-- HarmonyOS 三方库迁移实验 Group B
