@@ -1,21 +1,5 @@
 import { AnimTransform, AnimOptions } from './types';
-
-/**
- * Compute a segment duration from CSS keyframe percentages.
- * totalDuration * (currentPercent - prevPercent)
- */
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // bounce
@@ -25,9 +9,6 @@ export function bounce(
   options: AnimOptions
 ): KeyframeState[] {
   const dur: number = options.duration;
-  const delay: number = options.delay ?? 0;
-  const iterations: number = options.iterations ?? 1;
-  const onFinish: (() => void) | undefined = options.onFinish;
 
   const t0: AnimTransform = new AnimTransform();
   t0.translateY = 0;
@@ -369,6 +350,9 @@ export function swing(
   t100.rotateZ = 0;
 
   return [
+    // CSS swing has no from/0% keyframe (first at 20%).
+    // Add a zero-duration anchor at 0% to establish the starting state.
+    { duration: 0, curve: Curve.Linear, event: makeUpdater(updater, new AnimTransform()) },
     { duration: calcDuration(dur, 0, 20), curve: Curve.Linear, event: makeUpdater(updater, t20) },
     { duration: calcDuration(dur, 20, 40), curve: Curve.Linear, event: makeUpdater(updater, t40) },
     { duration: calcDuration(dur, 40, 60), curve: Curve.Linear, event: makeUpdater(updater, t60) },
@@ -570,6 +554,8 @@ export function jello(
 // ================================================================
 // heartBeat
 // ================================================================
+// NOTE: CSS sets animation-duration: calc(var(--animate-duration) * 1.3) for heartBeat.
+// To match web behavior, pass duration * 1.3.
 export function heartBeat(
   updater: (transform: AnimTransform) => void,
   options: AnimOptions

@@ -1,21 +1,11 @@
 import { AnimTransform, AnimOptions } from './types';
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // bounceIn (duration × 0.75)
 // ================================================================
+// NOTE: CSS applies animation-duration: calc(var(--animate-duration) * 0.75) to bounceIn.
+// To match web behavior, pass duration * 0.75.
 export function bounceIn(
   updater: (transform: AnimTransform) => void,
   options: AnimOptions
@@ -27,13 +17,16 @@ export function bounceIn(
   t0.scaleY = 0.3;
   t0.opacity = 0;
 
+  // CSS opacity interpolates 0→1 from 0% to 60%. At 20% ≈ 0.33, at 40% ≈ 0.67.
   const t20: AnimTransform = new AnimTransform();
   t20.scaleX = 1.1;
   t20.scaleY = 1.1;
+  t20.opacity = 0.33;
 
   const t40: AnimTransform = new AnimTransform();
   t40.scaleX = 0.9;
   t40.scaleY = 0.9;
+  t40.opacity = 0.67;
 
   const t60: AnimTransform = new AnimTransform();
   t60.scaleX = 1.03;
@@ -222,6 +215,8 @@ export function bounceInUp(
 // ================================================================
 // bounceOut (duration × 0.75)
 // ================================================================
+// NOTE: CSS applies animation-duration: calc(var(--animate-duration) * 0.75) to bounceOut.
+// To match web behavior, pass duration * 0.75.
 export function bounceOut(
   updater: (transform: AnimTransform) => void,
   options: AnimOptions
@@ -248,6 +243,8 @@ export function bounceOut(
   t100.opacity = 0;
 
   return [
+    // CSS bounceOut has no from/0% keyframe — anchor initial state.
+    { duration: 0, curve: Curve.Linear, event: makeUpdater(updater, new AnimTransform()) },
     { duration: calcDuration(dur, 0, 20), curve: Curve.Linear, event: makeUpdater(updater, t20) },
     { duration: calcDuration(dur, 20, 50), curve: Curve.Linear, event: makeUpdater(updater, t50) },
     { duration: calcDuration(dur, 50, 55), curve: Curve.Linear, event: makeUpdater(updater, t55) },

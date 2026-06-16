@@ -1,17 +1,5 @@
 import { AnimTransform, AnimOptions } from './types';
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // fadeIn

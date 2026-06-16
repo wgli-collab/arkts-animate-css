@@ -1,17 +1,5 @@
 import { AnimTransform, AnimOptions } from './types';
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // lightSpeedInRight
@@ -27,13 +15,17 @@ export function lightSpeedInRight(
   t0.skewX = -30;
   t0.opacity = 0;
 
+  // CSS at 60% and 80% specifies ONLY skew, not translate.
+  // translate should interpolate 100→0 across the full 0%–100% timeline.
+  // Explicit translateX at each keyframe to prevent the AnimTransform
+  // default of 0 from collapsing translate too early.
   const t60: AnimTransform = new AnimTransform();
-  t60.translateX = 0;
+  t60.translateX = 40;  // 100 * (1 - 0.6)
   t60.skewX = 20;
   t60.opacity = 1;
 
   const t80: AnimTransform = new AnimTransform();
-  t80.translateX = 0;
+  t80.translateX = 20;  // 100 * (1 - 0.8)
   t80.skewX = -5;
 
   const t100: AnimTransform = new AnimTransform();
@@ -62,13 +54,15 @@ export function lightSpeedInLeft(
   t0.skewX = 30;
   t0.opacity = 0;
 
+  // CSS at 60% and 80% specifies ONLY skew, not translate.
+  // translate should interpolate -100→0 across the full 0%–100% timeline.
   const t60: AnimTransform = new AnimTransform();
-  t60.translateX = 0;
+  t60.translateX = -40;  // -100 * (1 - 0.6)
   t60.skewX = -20;
   t60.opacity = 1;
 
   const t80: AnimTransform = new AnimTransform();
-  t80.translateX = 0;
+  t80.translateX = -20;  // -100 * (1 - 0.8)
   t80.skewX = 5;
 
   const t100: AnimTransform = new AnimTransform();
@@ -85,6 +79,8 @@ export function lightSpeedInLeft(
 
 // ================================================================
 // lightSpeedOutRight
+// NOTE: CSS "from" only sets opacity=1; transform inherits from element state.
+// AnimTransform defaults all properties to 0/identity, so t0 resets any prior transform.
 // ================================================================
 export function lightSpeedOutRight(
   updater: (transform: AnimTransform) => void,
@@ -110,6 +106,7 @@ export function lightSpeedOutRight(
 
 // ================================================================
 // lightSpeedOutLeft
+// NOTE: Same as lightSpeedOutRight — t0 resets prior transform to identity.
 // ================================================================
 export function lightSpeedOutLeft(
   updater: (transform: AnimTransform) => void,

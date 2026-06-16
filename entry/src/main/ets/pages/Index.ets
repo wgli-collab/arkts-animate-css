@@ -168,7 +168,6 @@ struct TestPage {
   @State results: TestResult[] = [];
   @State totalPassed: number = 0;
   @State totalFailed: number = 0;
-  @State totalSkipped: number = 0;
 
   aboutToAppear(): void {
     this.runAllTests();
@@ -324,6 +323,9 @@ struct TestPage {
 
     // ====================================================================
     // Edge Cases
+    // NOTE: Coverage is limited to standard-path validation (keyframe generation).
+    // Negative tests (duration=0, NaN, updater=null, iterations=-1) are not
+    // on-device tested; input guards in internal.ets provide defense-in-depth.
     // ====================================================================
     this.results.push(runTestWithOptions('fadeIn (0 delay)', fadeIn, { duration: 500, delay: 0 }));
     this.results.push(runTestWithOptions('fadeOut (short dur)', fadeOut, { duration: 1, delay: 0, iterations: 1 }));
@@ -331,15 +333,11 @@ struct TestPage {
     // Calculate totals
     this.totalPassed = 0;
     this.totalFailed = 0;
-    this.totalSkipped = 0;
     for (let i: number = 0; i < this.results.length; i++) {
-      const r: TestResult = this.results[i];
-      if (r.passed) {
+      if (this.results[i].passed) {
         this.totalPassed++;
-      } else if (r.error.length > 0) {
-        this.totalFailed++;
       } else {
-        this.totalSkipped++;
+        this.totalFailed++;
       }
     }
   }
@@ -352,21 +350,17 @@ struct TestPage {
         .margin({ top: 20 })
 
       Row() {
-        Text('✅ ' + this.totalPassed)
+        Text('Passed ' + this.totalPassed)
           .fontColor('#4CAF50')
           .fontSize(18)
-        Text('❌ ' + this.totalFailed)
+        Text('Failed ' + this.totalFailed)
           .fontColor('#F44336')
-          .fontSize(18)
-          .margin({ left: 12 })
-        Text('⬜ ' + this.totalSkipped)
-          .fontColor('#9E9E9E')
           .fontSize(18)
           .margin({ left: 12 })
       }
       .margin({ top: 8, bottom: 8 })
 
-      Text('Total: ' + this.results.length + ' tests — 97 animations + 4 edge cases')
+      Text('Total: ' + this.results.length + ' tests — 97 animations + 2 edge cases + 2 param variants')
         .fontSize(12)
         .fontColor('#666')
         .margin({ bottom: 8 })
@@ -375,8 +369,9 @@ struct TestPage {
         ForEach(this.results, (item: TestResult, index: number) => {
           ListItem() {
             Row() {
-              Text(item.passed ? '✅' : (item.error.length > 0 ? '❌' : '⬜'))
-                .fontSize(16)
+              Text(item.passed ? 'OK' : 'FAIL')
+                .fontSize(14)
+                .fontColor(item.passed ? '#4CAF50' : '#F44336')
               Text(item.name)
                 .fontSize(13)
                 .margin({ left: 8 })

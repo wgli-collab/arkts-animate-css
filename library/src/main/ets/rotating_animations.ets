@@ -1,17 +1,5 @@
 import { AnimTransform, AnimOptions } from './types';
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // rotateIn
@@ -60,7 +48,7 @@ export function rotateInDownLeft(
 }
 
 // ================================================================
-// rotateInDownRight
+// rotateInDownRight (CSS origin: right bottom)
 // ================================================================
 export function rotateInDownRight(
   updater: (transform: AnimTransform) => void,
@@ -82,8 +70,12 @@ export function rotateInDownRight(
   ];
 }
 
+// NOTE: rotateInUpLeft and rotateInDownRight share identical CSS @keyframes
+// (both use rotate3d(0,0,1,45deg) → translate3d(0,0,0)).
+// The visual difference comes from CSS transform-origin (left bottom vs right bottom),
+// which is not representable in AnimTransform. This is a documented platform limitation.
 // ================================================================
-// rotateInUpLeft
+// rotateInUpLeft (CSS origin: left bottom)
 // ================================================================
 export function rotateInUpLeft(
   updater: (transform: AnimTransform) => void,

@@ -1,17 +1,9 @@
 import { AnimTransform, AnimOptions } from './types';
+import { calcDuration, makeUpdater } from './internal';
 
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+// NOTE: CSS slideIn* sets "visibility: visible" at from, and slideOut* sets
+// "visibility: hidden" at to. AnimTransform has no visibility property.
+// Users must manage element visibility externally (e.g. via ArkUI .visibility()).
 
 // ================================================================
 // slideInDown

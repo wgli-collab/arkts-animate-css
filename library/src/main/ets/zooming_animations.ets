@@ -1,17 +1,5 @@
 import { AnimTransform, AnimOptions } from './types';
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // zoomIn
@@ -27,7 +15,10 @@ export function zoomIn(
   t0.scaleY = 0.3;
   t0.opacity = 0;
 
+  // CSS scale interpolates 0.3→1 from 0% to 100%. At 50% ≈ 0.65.
   const t50: AnimTransform = new AnimTransform();
+  t50.scaleX = 0.65;
+  t50.scaleY = 0.65;
   t50.opacity = 1;
 
   const t100: AnimTransform = new AnimTransform();
@@ -195,7 +186,11 @@ export function zoomOut(
   t50.scaleY = 0.3;
   t50.opacity = 0;
 
+  // CSS "to" keyframe does NOT set scale — it inherits scale=0.3 from 50%.
+  // Use explicit scale=0.3 here to prevent an incorrect 0.3→1 scale-up.
   const t100: AnimTransform = new AnimTransform();
+  t100.scaleX = 0.3;
+  t100.scaleY = 0.3;
   t100.opacity = 0;
 
   return [
@@ -227,6 +222,8 @@ export function zoomOutDown(
   t100.opacity = 0;
 
   return [
+    // CSS zoomOutDown has no from/0% keyframe — anchor initial state.
+    { duration: 0, curve: Curve.Linear, event: makeUpdater(updater, new AnimTransform()) },
     { duration: calcDuration(dur, 0, 40), curve: Curve.Ease, event: makeUpdater(updater, t40) },
     { duration: calcDuration(dur, 40, 100), curve: Curve.Ease, event: makeUpdater(updater, t100) }
   ];

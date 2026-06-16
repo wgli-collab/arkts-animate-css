@@ -5,7 +5,7 @@
   "description": "Test entry for arkts-animate-css — 97 keyframe-based animations",
   "main": "",
   "author": "",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "library": "file:../library"
   }

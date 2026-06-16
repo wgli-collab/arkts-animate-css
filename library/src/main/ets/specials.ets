@@ -1,21 +1,11 @@
 import { AnimTransform, AnimOptions } from './types';
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
+import { calcDuration, makeUpdater } from './internal';
 
 // ================================================================
 // hinge (duration × 2)
 // ================================================================
+// NOTE: CSS sets animation-duration: calc(var(--animate-duration) * 2) for hinge.
+// To match web behavior, pass duration * 2.
 export function hinge(
   updater: (transform: AnimTransform) => void,
   options: AnimOptions
@@ -68,10 +58,15 @@ export function jackInTheBox(
   t0.rotateZ = 30;
   t0.opacity = 0;
 
+  // CSS scale interpolates 0.1→1 from 0% to 100%. At 50% ≈ 0.55, at 70% ≈ 0.73.
   const t50: AnimTransform = new AnimTransform();
+  t50.scaleX = 0.55;
+  t50.scaleY = 0.55;
   t50.rotateZ = -10;
 
   const t70: AnimTransform = new AnimTransform();
+  t70.scaleX = 0.73;
+  t70.scaleY = 0.73;
   t70.rotateZ = 3;
 
   const t100: AnimTransform = new AnimTransform();
@@ -115,6 +110,8 @@ export function rollIn(
 
 // ================================================================
 // rollOut
+// NOTE: CSS "from" only sets opacity=1; transform inherits from element state.
+// AnimTransform defaults all properties to 0/identity, resetting any prior transform.
 // ================================================================
 export function rollOut(
   updater: (transform: AnimTransform) => void,

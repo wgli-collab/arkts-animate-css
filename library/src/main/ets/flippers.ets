@@ -1,21 +1,9 @@
 import { AnimTransform, AnimOptions } from './types';
+import { calcDuration, makeUpdater } from './internal';
 
 // NOTE: Original CSS uses 3D transforms (perspective, rotateX, rotateY, translateZ).
 // ArkUI has limited 3D support — rotateX/rotateY are approximated via rotateZ.
 // The visual effect will differ from CSS originals; this is a documented limitation.
-
-function calcDuration(totalDuration: number, prevPercent: number, currentPercent: number): number {
-  return totalDuration * (currentPercent - prevPercent) / 100;
-}
-
-function makeUpdater(
-  updater: (transform: AnimTransform) => void,
-  transform: AnimTransform
-): () => void {
-  return (): void => {
-    updater(transform);
-  };
-}
 
 // ================================================================
 // flip (rotateY approximated via rotateZ)
@@ -61,7 +49,9 @@ export function flip(
 }
 
 // ================================================================
-// flipInX (rotateX approximated via rotateZ)
+// flipInX (rotateX approximated via rotateZ + scaleX compression)
+// rotateX makes the element appear to narrow as it rotates around X axis.
+// We simulate this by reducing scaleX at the "edge-on" angles.
 // ================================================================
 export function flipInX(
   updater: (transform: AnimTransform) => void,
@@ -71,13 +61,16 @@ export function flipInX(
 
   const t0: AnimTransform = new AnimTransform();
   t0.rotateZ = 90;
+  t0.scaleX = 0.2;
   t0.opacity = 0;
 
   const t40: AnimTransform = new AnimTransform();
   t40.rotateZ = -20;
+  t40.scaleX = 0.8;
 
   const t60: AnimTransform = new AnimTransform();
   t60.rotateZ = 10;
+  t60.scaleX = 0.95;
   t60.opacity = 1;
 
   const t80: AnimTransform = new AnimTransform();
@@ -85,6 +78,7 @@ export function flipInX(
 
   const t100: AnimTransform = new AnimTransform();
   t100.rotateZ = 0;
+  t100.scaleX = 1;
   t100.opacity = 1;
 
   return [
@@ -97,7 +91,9 @@ export function flipInX(
 }
 
 // ================================================================
-// flipInY (rotateY approximated via rotateZ)
+// flipInY (rotateY approximated via rotateZ + scaleY compression)
+// rotateY makes the element appear to narrow as it rotates around Y axis.
+// We simulate this by reducing scaleY at the "edge-on" angles.
 // ================================================================
 export function flipInY(
   updater: (transform: AnimTransform) => void,
@@ -107,13 +103,16 @@ export function flipInY(
 
   const t0: AnimTransform = new AnimTransform();
   t0.rotateZ = 90;
+  t0.scaleY = 0.2;
   t0.opacity = 0;
 
   const t40: AnimTransform = new AnimTransform();
   t40.rotateZ = -20;
+  t40.scaleY = 0.8;
 
   const t60: AnimTransform = new AnimTransform();
   t60.rotateZ = 10;
+  t60.scaleY = 0.95;
   t60.opacity = 1;
 
   const t80: AnimTransform = new AnimTransform();
@@ -121,6 +120,7 @@ export function flipInY(
 
   const t100: AnimTransform = new AnimTransform();
   t100.rotateZ = 0;
+  t100.scaleY = 1;
   t100.opacity = 1;
 
   return [
@@ -133,7 +133,7 @@ export function flipInY(
 }
 
 // ================================================================
-// flipOutX (rotateX approximated via rotateZ, duration × 0.75)
+// flipOutX (rotateX approximated via rotateZ + scaleX compression, duration × 0.75)
 // ================================================================
 export function flipOutX(
   updater: (transform: AnimTransform) => void,
@@ -143,13 +143,16 @@ export function flipOutX(
 
   const t0: AnimTransform = new AnimTransform();
   t0.rotateZ = 0;
+  t0.scaleX = 1;
 
   const t30: AnimTransform = new AnimTransform();
   t30.rotateZ = -20;
+  t30.scaleX = 0.8;
   t30.opacity = 1;
 
   const t100: AnimTransform = new AnimTransform();
   t100.rotateZ = 90;
+  t100.scaleX = 0.2;
   t100.opacity = 0;
 
   return [
@@ -160,7 +163,7 @@ export function flipOutX(
 }
 
 // ================================================================
-// flipOutY (rotateY approximated via rotateZ, duration × 0.75)
+// flipOutY (rotateY approximated via rotateZ + scaleY compression, duration × 0.75)
 // ================================================================
 export function flipOutY(
   updater: (transform: AnimTransform) => void,
@@ -170,13 +173,16 @@ export function flipOutY(
 
   const t0: AnimTransform = new AnimTransform();
   t0.rotateZ = 0;
+  t0.scaleY = 1;
 
   const t30: AnimTransform = new AnimTransform();
   t30.rotateZ = -15;
+  t30.scaleY = 0.8;
   t30.opacity = 1;
 
   const t100: AnimTransform = new AnimTransform();
   t100.rotateZ = 90;
+  t100.scaleY = 0.2;
   t100.opacity = 0;
 
   return [
